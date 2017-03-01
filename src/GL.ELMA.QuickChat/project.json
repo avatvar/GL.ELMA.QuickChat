@@ -47,7 +47,8 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.WebSockets": "1.0.0",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0"
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
+    "Microsoft.AspNet.SignalR.JS": "2.2.1"
   },
     "tools": {
       "BundlerMinifier.Core": "2.4.337",
