@@ -36,7 +36,6 @@
       "type": "build"
     },
     "Json.NET.Web": "1.0.49",
-    "Microsoft.AspNet.SignalR": "2.2.1",
     "Microsoft.AspNetCore.Mvc": "1.1.1",
     "Microsoft.AspNetCore.Razor.Tools": {
       "version": "1.1.0-preview4-final",
@@ -48,22 +47,9 @@
     },
     "Microsoft.AspNetCore.WebSockets": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "Microsoft.AspNet.SignalR.JS": "2.2.1",
-    "React.AspNet": "3.0.1"
-  },
-  "devDependencies": {
-    "browser-sync": "^2.9.6",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.0.2",
-    "gulp-babel": "^5.2.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-eslint": "^1.0.0",
-    "gulp-filter": "^3.0.1",
-    "gulp-newer": "^0.5.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.0.4",
-    "gulp-sourcemaps": "^1.5.2"
+    "React.AspNet": "3.0.1",
+    "Microsoft.AspNetCore.SignalR.Server": "0.2.0-preview2-22683",
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1"
   },
   "tools": {
     "BundlerMinifier.Core": "2.4.337",
@@ -108,8 +94,7 @@
   },
   "scripts": {
     "precompile": [
-      "dotnet bundle",
-      "gulp"
+      "dotnet bundle"
     ],
     "prepublish": [
       "bower install"

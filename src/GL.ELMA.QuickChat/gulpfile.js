@@ -16,7 +16,7 @@ gulp.task("scripts", function () {
             "wwwroot/components/UserList.jsx",
             "wwwroot/components/ChatWindow.jsx",
             "wwwroot/components/MainChat.jsx",
-            "wwwroot/components/Render.jsx"
+            "wwwroot/components/RenderChat.jsx"
     ])
 		.pipe(babel({ presets: ["react", "es2016"]
 		}))
@@ -29,9 +29,7 @@ gulp.task("scripts", function () {
 
 // Watch Files For Changes
 gulp.task("watch", function () {
-    gulp.watch({glob: "wwwroot/components/*.jsx"})
-      .pipe(jshint())
-      .pipe(jshint.reporter("scripts"));
+    gulp.watch(["wwwroot/components/*.jsx"], ["scripts"]);
 });
 
 // Default Task

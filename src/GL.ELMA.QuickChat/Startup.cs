@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GL.ELMA.QuickChat.Data;
+using GL.ELMA.QuickChat.Managers;
 using Microsoft.AspNetCore.Http;
 using React.AspNet;
 using GL.ELMA.QuickChat.Models;
 using GL.ELMA.QuickChat.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 
 namespace GL.ELMA.QuickChat
 {
@@ -54,14 +57,30 @@ namespace GL.ELMA.QuickChat
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new SignalRContractResolver();
+
+            var serializer = JsonSerializer.Create(settings);
+
+            services.Add(new ServiceDescriptor(typeof(JsonSerializer),
+                         provider => serializer,
+                         ServiceLifetime.Transient));
+
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IChatManager, ChatManager>();
+
+            services.AddSignalR();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +100,16 @@ namespace GL.ELMA.QuickChat
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                config.AddScriptWithoutTransform("~/components/components.min.js");
+                config.AddScriptWithoutTransform("~/lib/react/dist/react.js");
+                config.AddScriptWithoutTransform("~/lib/react-dom/dist/react-dom.js");
+                config.AddScriptWithoutTransform("~/lib/jquery/dist/jquery.js");
+                //config.AddScriptWithoutTransform("~/lib/bootstrap/dist/js/bootstrap.js");
+            });
+            
             app.UseStaticFiles();
 
             app.UseIdentity();
@@ -91,13 +120,13 @@ namespace GL.ELMA.QuickChat
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "chat",
+                    template: "{controller}/{action}/{id?}");
             });
 
-            // Initialise ReactJS.NET. Must be before static files.
-            app.UseReact(config =>
-            {
-                config.AddScript("~/components/First.jsx");
-            });
+            app.UseWebSockets();
+            app.UseSignalR();
         }
     }
 }

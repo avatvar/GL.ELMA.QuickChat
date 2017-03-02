@@ -2,9 +2,9 @@
             
     getInitialState : function () {
         return {
-            ChatHub: $.connection.MyChatHub,
+            ChatHub: $.connection.MainHub,
             Messages: [], 
-            UserInitialized: false, 
+            UserInitialized: true, 
             UserName:'', 
             UserId:'00000000-0000-0000-0000-000000000000',
 			Users: []
@@ -15,11 +15,11 @@
         var msgs = this.state.Messages;
         msgs.push({
             Id: id,
-            UserId:userId,
-            UserName:userName,
-            Message:message,
-            DateTime:dateTime
-        })
+            UserId: userId,
+            UserName: userName,
+            Message: message,
+            DateTime: dateTime
+        });
         this.setState({
             Messages: msgs
         });                
@@ -41,7 +41,8 @@
 
     initializeUser: function (userName) {   
         var component = this;
-        $.getJSON('./api/Chat/?userName=' + userName).then(function (userId) {
+        $.getJSON('./Chat/GetNewUserId/?userName=' + userName).then(function (userId) {
+            debugger;
             component.setState({
                 UserInitialized: true, 
                 UserName: userName, 
@@ -60,7 +61,7 @@
         };
         $.ajax({
             method:'post',
-            url: './api/Chat/',
+            url: './Chat/PostChat',
             data: JSON.stringify(messageObj),
             dataType: "json",
             contentType: "application/json; charset=utf-8"
@@ -78,6 +79,7 @@
                     );
         }
         else {
+            debugger;
             return ( <ChatInitialization initialize={this.initializeUser}/> );
         }
     }

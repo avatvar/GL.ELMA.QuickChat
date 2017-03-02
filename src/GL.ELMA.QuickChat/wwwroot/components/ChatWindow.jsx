@@ -20,7 +20,7 @@
         var userId;
                 
         if(this.props.messages.length) {
-            for(;i<this.props.messages.length;i++) {
+            for(; i < this.props.messages.length; i++) {
                 userId = this.props.messages[i].UserId;
                 items.push(<ChatItem 
                                 username={this.props.messages[i].UserName}
