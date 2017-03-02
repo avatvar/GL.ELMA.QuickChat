@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "name": "gl.elma.quickchat",
+  "private": true,
+  "devDependencies": {
+    "babel-preset-es2016": "6.22.0",
+    "babel-preset-react": "6.23.0",
+    "bootstrap": "3.3.7",
+    "graceful-fs": "4.1.11",
+    "gulp": "^3.9.1",
+    "gulp-babel": "6.1.2",
+    "gulp-concat": "2.6.1",
+    "gulp-jshint": "2.0.4",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "3.0.0",
+    "gulp-uglify": "2.0.1",
+    "jquery": "3.1.1",
+    "jquery-validation": "1.16.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "jshint": "2.9.4",
+    "minimatch": "3.0.3",
+    "perfect-scrollbar": "0.6.16",
+    "react": "15.4.2",
+    "signalr": "2.2.1"
+  }
+}

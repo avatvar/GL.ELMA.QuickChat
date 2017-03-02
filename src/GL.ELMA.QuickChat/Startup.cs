@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GL.ELMA.QuickChat.Data;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
 using GL.ELMA.QuickChat.Models;
 using GL.ELMA.QuickChat.Services;
 
@@ -57,6 +59,9 @@ namespace GL.ELMA.QuickChat
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +84,6 @@ namespace GL.ELMA.QuickChat
             app.UseStaticFiles();
 
             app.UseIdentity();
-
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
@@ -87,6 +91,12 @@ namespace GL.ELMA.QuickChat
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                config.AddScript("~/components/First.jsx");
             });
         }
     }
