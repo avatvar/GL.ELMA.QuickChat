@@ -12,25 +12,25 @@ namespace GL.ELMA.QuickChat.Managers
         public ChatManager()
         {
             _chatStore = new ChatStore();
-            _chatStore.ChatList.Add(new ChatItem {DateTime = DateTime.Now, Id = Guid.NewGuid(), Message = "Message", UserId = Guid.NewGuid(), UserName = "UserName"});
+            _chatStore.ChatList.Add(new ChatMessage {DateTime = DateTime.Now, Id = Guid.NewGuid(), Message = "Message", UserId = Guid.NewGuid(), UserName = "UserName"});
         }
 
-        public void AddChat(ChatItem chatItem)
+        public void AddChat(ChatMessage chatItem)
         {
             _chatStore.ChatList.Add(chatItem);
         }
 
-        public void AddUser(string userName)
+        public void AddUser(ChatUser userName)
         {
             _chatStore.UserList.Add(userName);
         }
 
-        public List<String> GetAllUsers()
+        public List<ChatUser> GetAllUsers()
         {
             return _chatStore.UserList;
         }
 
-        public List<ChatItem> GetAllChat()
+        public List<ChatMessage> GetAllChat()
         {
             return _chatStore.ChatList;
         }

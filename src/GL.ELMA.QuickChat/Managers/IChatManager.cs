@@ -6,9 +6,9 @@ namespace GL.ELMA.QuickChat.Managers
 {
     public interface IChatManager
     {
-        void AddChat(ChatItem chatItem);
-        void AddUser(string userName);
-        List<String> GetAllUsers();
-        List<ChatItem> GetAllChat();
+        void AddChat(ChatMessage chatItem);
+        void AddUser(ChatUser user);
+        List<ChatUser> GetAllUsers();
+        List<ChatMessage> GetAllChat();
     }
 }

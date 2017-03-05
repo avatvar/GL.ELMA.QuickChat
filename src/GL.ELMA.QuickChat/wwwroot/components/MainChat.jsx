@@ -4,84 +4,30 @@
         return {
             ChatHub: $.connection.MainHub,
             Messages: [], 
-            UserInitialized: true, 
             UserName:'', 
-            UserId:'00000000-0000-0000-0000-000000000000',
-			Users: []
+            UserId:'00000000-0000-0000-0000-000000000000'
         };
     },
 
-    pushNewMessage: function (id, userId, userName, message, dateTime) {
-        var msgs = this.state.Messages;
-        msgs.push({
-            Id: id,
-            UserId: userId,
-            UserName: userName,
-            Message: message,
-            DateTime: dateTime
-        });
-        this.setState({
-            Messages: msgs
-        });                
-    },
-
-	pushUserList: function(userList) {
-		this.setState({
-            Users: userList
-        }); 
+	initializeUser: function () {
+	    var component = this;
+	    $.getJSON('./Chat/GetCurrentUser/').then(function (data) {
+	        component.setState({
+	            UserName: data.UserName,
+	            UserId: data.Id
+	        });
+	    });
 	},
 
-    componentWillMount: function () {
-        this.state.ChatHub.client.pushNewMessage = this.pushNewMessage;
-		this.state.ChatHub.client.pushUserList = this.pushUserList;
-        $.connection.hub.start().done(function () { 
-            console.log('SignalR Hub Started!');
-        });
-    },
-
-    initializeUser: function (userName) {   
-        var component = this;
-        $.getJSON('./Chat/GetNewUserId/?userName=' + userName).then(function (userId) {
-            debugger;
-            component.setState({
-                UserInitialized: true, 
-                UserName: userName, 
-                UserId: userId			
-            });
-        });                
-    },
-
-    sendMessage: function (message) {
-        var messageObj = {
-            Id:'00000000-0000-0000-0000-000000000000',
-            UserId:this.state.UserId,
-            UserName: this.state.UserName, 
-            Message: message, 
-            DateTime: new Date()
-        };
-        $.ajax({
-            method:'post',
-            url: './Chat/PostChat',
-            data: JSON.stringify(messageObj),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8"
-        });
+	componentWillMount: function () {
+        this.initializeUser();
     },
 
     render: function () {
-        if (this.state.UserInitialized) {
-            return ( <ChatWindow 
-                        messages={this.state.Messages}
-                        username={this.state.UserName}
-                        userid={this.state.UserId} 
-                        sendmessage={this.sendMessage} 
-						users = {this.state.Users} /> 
-                    );
-        }
-        else {
-            debugger;
-            return ( <ChatInitialization initialize={this.initializeUser}/> );
-        }
+        return (<div>
+                       <ChatUsers chathub={this.state.ChatHub} sendmessage={this.sendMessage} currentUser={this.state.UserId} />
+                       <div id="ChatWindowContainer"></div>
+                   </div>);
     }
         
 });

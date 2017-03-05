@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GL.ELMA.QuickChat.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
@@ -13,15 +14,24 @@ namespace GL.ELMA.QuickChat.Hubs
     public class MainHub : Hub
     {
         private readonly IConnectionManager _connectionManager;
-        public MainHub(IConnectionManager connectionManager) : base()
+        private readonly UserManager<ApplicationUser> _userManager;
+        public MainHub(IConnectionManager connectionManager, UserManager<ApplicationUser> userManager)
         {
             _connectionManager = connectionManager;
+            _userManager = userManager;
         }
+
+        public override Task OnConnected()
+        {
+            var context = Context;
+            return base.OnConnected();
+        }
+
         /// <summary>
         /// Broadcasts the chat message to all the clients
         /// </summary>
         /// <param name="chatItem"></param>
-        public void SendMessage(ChatItem chatItem)
+        public void SendMessage(ChatMessage chatItem)
         {
             IHubContext context = _connectionManager.GetHubContext("MainHub");
             context.Clients.All.pushNewMessage(chatItem.Id, chatItem.UserId, chatItem.UserName, chatItem.Message, chatItem.DateTime);
@@ -30,7 +40,7 @@ namespace GL.ELMA.QuickChat.Hubs
         /// <summary>
         /// Broadcasts the user list to the clients
         /// </summary>
-        public void SendUserList(List<String> userList)
+        public void SendUserList(List<ChatUser> userList)
         {
             IHubContext context = _connectionManager.GetHubContext("MainHub");
             context.Clients.All.pushUserList(userList);

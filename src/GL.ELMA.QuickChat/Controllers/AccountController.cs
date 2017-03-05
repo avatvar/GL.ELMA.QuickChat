@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using GL.ELMA.QuickChat.Models;
 using GL.ELMA.QuickChat.Models.AccountViewModels;
 using GL.ELMA.QuickChat.Services;
+using Newtonsoft.Json;
 
 namespace GL.ELMA.QuickChat.Controllers
 {
@@ -435,6 +436,10 @@ namespace GL.ELMA.QuickChat.Controllers
                 return View(model);
             }
         }
+
+        //
+        // GET: /Account/GetUsers
+        
 
         #region Helpers
 

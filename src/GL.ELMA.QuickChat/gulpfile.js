@@ -10,20 +10,13 @@ var rename = require("gulp-rename");
 
 //transpile ES6 into ES5
 gulp.task("scripts", function () {
-    return gulp.src([
-            "wwwroot/components/ChatItem.jsx",
-            "wwwroot/components/ChatInitialization.jsx",
-            "wwwroot/components/UserList.jsx",
-            "wwwroot/components/ChatWindow.jsx",
-            "wwwroot/components/MainChat.jsx",
-            "wwwroot/components/RenderChat.jsx"
-    ])
+    return gulp.src(["wwwroot/components/*.jsx"])
 		.pipe(babel({ presets: ["react", "es2016"]
 		}))
         .pipe(concat("components.js"))
-        .pipe(jshint())
+        //.pipe(jshint())
         .pipe(rename("components.min.js"))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest("wwwroot/components"));
 });
 

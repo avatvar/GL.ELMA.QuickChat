@@ -8,13 +8,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GL.ELMA.QuickChat.Data;
+using GL.ELMA.QuickChat.Formatters;
 using GL.ELMA.QuickChat.Managers;
 using Microsoft.AspNetCore.Http;
-using React.AspNet;
 using GL.ELMA.QuickChat.Models;
 using GL.ELMA.QuickChat.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 
@@ -53,18 +55,16 @@ namespace GL.ELMA.QuickChat
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            var settings = new JsonSerializerSettings();
-            settings.ContractResolver = new SignalRContractResolver();
-
-            var serializer = JsonSerializer.Create(settings);
-
-            services.Add(new ServiceDescriptor(typeof(JsonSerializer),
-                         provider => serializer,
-                         ServiceLifetime.Transient));
 
             services.AddSignalR(options =>
             {
@@ -79,8 +79,15 @@ namespace GL.ELMA.QuickChat
             services.AddSignalR();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddReact();
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+               options.InputFormatters.RemoveType<JsonInputFormatter>();
+               options.InputFormatters.Add(new CustomJsonInputFormatter());
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver =
+                    new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,19 +106,7 @@ namespace GL.ELMA.QuickChat
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            // Initialise ReactJS.NET. Must be before static files.
-            app.UseReact(config =>
-            {
-                config.AddScriptWithoutTransform("~/components/components.min.js");
-                config.AddScriptWithoutTransform("~/lib/react/dist/react.js");
-                config.AddScriptWithoutTransform("~/lib/react-dom/dist/react-dom.js");
-                config.AddScriptWithoutTransform("~/lib/jquery/dist/jquery.js");
-                //config.AddScriptWithoutTransform("~/lib/bootstrap/dist/js/bootstrap.js");
-            });
-            
             app.UseStaticFiles();
-
             app.UseIdentity();
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -120,9 +115,6 @@ namespace GL.ELMA.QuickChat
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                    name: "chat",
-                    template: "{controller}/{action}/{id?}");
             });
 
             app.UseWebSockets();
