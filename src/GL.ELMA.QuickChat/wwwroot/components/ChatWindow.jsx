@@ -2,9 +2,8 @@
     
     getInitialState: function () {
         return {
-            UserId: this.props.userId,
+            UserId: this.props.userid,
             UserName: this.props.username,
-            SendMessage: this.props.sendmessage,
             ChatHub: this.props.chathub,
             Messages: [],
             CurrentUser: this.props.currentUser

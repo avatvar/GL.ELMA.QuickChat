@@ -4,7 +4,6 @@
         return {
             UserId: this.props.userId,
             UserName: this.props.username,
-            SendMessage: this.props.sendmessage,
             ChatHub: this.props.chathub,
             CurrentUser: this.props.currentUser
         };
@@ -29,7 +28,7 @@
     },
 
     render: function () {
-        return (<button  onClick={this.addMessageWindow} key={$.guid++} className={'userItem' }>{this.state.UserName}</button>);
+        return (<button id={'userBtn'+ this.state.UserId}  onClick={this.addMessageWindow} key={$.guid++} className={'userItem' }>{this.state.UserName}</button>);
     }
 
 });
