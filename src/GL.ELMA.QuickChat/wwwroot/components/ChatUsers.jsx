@@ -48,17 +48,22 @@
     },
 
 	render : function () {
-		var userDivs = [];
+	    var userLi = [];
 		var i = 0;
 
 		for (; i < this.state.Users.length; i++) {
 		    var user = this.state.Users[i];
-		    userDivs.push(<ChatUser key={i} username={user.UserName} userId={user.UserId} currentUser={this.state.CurrentUserId} chathub={this.state.ChatHub}/>);
+		    userLi.push(<ChatUser key={i} username={user.UserName} userId={user.UserId} currentUser={this.state.CurrentUserId} chathub={this.state.ChatHub}/>);
 		}
         
-		return ( <div style={{overflow:'hidden', display:'block', float:'left', padding:'2px'}}>
-					<h4>Пользователи</h4>
-					{userDivs}
+		return ( <div className={'people-list'} id={'people-list'}>
+					<div className={'search'}>
+                        <input type={'text'} placeholder={'search'}/>
+                          <i className={'fa fa-search'}></i>
+					</div>
+                    <ul className={"list"}>
+                        {userLi}
+                    </ul>
 				 </div> );
 	}
 

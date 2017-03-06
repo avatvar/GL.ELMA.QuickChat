@@ -77,19 +77,37 @@
                 userId = this.state.Messages[i].UserId;
                 items.push(<ChatItem 
                                 username={this.state.Messages[i].UserName}
+                                liIndex={i}
                                 datetime={this.state.Messages[i].DateTime} 
                                 source={(userId === this.state.CurrentUser) ? 'client' : 'server'} 
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
+                j++;
             }
         }
                 
-        return ( <div id={this.props.userid} style={{display: 'block'}}>
-					<div style={{overflow:'hidden'}}> 
-						<div data-messages className={'messagesDiv'}>{items}</div>
-                        <div style={{ display: 'block', width: '84%' } }><input type='text' style={{width: 'inherit'}} data-message /> &nbsp; <a onClick={this.sendMessage} href='#'>Отправить</a></div> 
-					</div>
-                </div>
+        return (<div id={this.props.userid}>
+                    <div className={"chat-header clearfix"}>
+                        <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"} alt={"avatar"}/>   
+                        <div className={"chat-about"}>
+                          <div className={"chat-with"}>Chat with {this.state.UserName}</div>
+                          <div className={"chat-num-messages"}>already 1 902 messages</div>
+                        </div>
+                        <i className={"fa fa-star"}></i>
+                      </div>
+                      <div className={"chat-history"}>
+                          <ul> {items} </ul>
+                      </div>
+                      <div className={"chat-message clearfix"}>
+                        <textarea name={"message-to-send"} id={"message-to-send"} placeholder={"Type your message"} rows={"3"}></textarea>
+                
+                        <i className={"fa fa-file-o"}></i> &nbsp;&nbsp;&nbsp;
+                        <i className={"fa fa-file-image-o"}></i>
+        
+                        <button onClick={this.sendMessage}>Send</button>
+
+                      </div>
+                  </div>
             );
     }
 

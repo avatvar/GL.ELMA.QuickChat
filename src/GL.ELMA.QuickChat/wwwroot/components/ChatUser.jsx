@@ -28,7 +28,14 @@
     },
 
     render: function () {
-        return (<button id={'userBtn'+ this.state.UserId}  onClick={this.addMessageWindow} key={$.guid++} className={'userItem' }>{this.state.UserName}</button>);
+        return (<li id={'userLi'+ this.state.UserId} onClick={this.addMessageWindow} key={$.guid++} className={'clearfix'}>
+                    <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg"} alt={'avatar'}/>
+                    <div className={"about"}>
+                        <div className={"name"}>{this.state.UserName}</div>
+                        <div className={"status"}>
+                          <i className={"fa fa-circle online"}></i> online</div>
+                    </div>
+                </li>);
     }
 
 });

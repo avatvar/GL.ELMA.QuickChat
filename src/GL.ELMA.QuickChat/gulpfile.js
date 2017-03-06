@@ -7,6 +7,7 @@ var concat = require("gulp-concat");
 var babel = require("gulp-babel");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
+var sass = require("gulp-sass");
 
 //transpile ES6 into ES5
 gulp.task("scripts", function () {
@@ -20,10 +21,19 @@ gulp.task("scripts", function () {
         .pipe(gulp.dest("wwwroot/components"));
 });
 
-// Watch Files For Changes
-gulp.task("watch", function () {
+gulp.task('sass', function () {
+    gulp.src('wwwroot/sass/site.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(rename("quickChat.min.css"))
+      .pipe(gulp.dest('wwwroot/css'));
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('wwwroot/sass/*.scss', ['sass']);
+});
+
+gulp.task("scripts:watch", function () {
     gulp.watch(["wwwroot/components/*.jsx"], ["scripts"]);
 });
 
-// Default Task
-gulp.task("default", ["scripts", "watch"]);
+gulp.task("default", ["scripts", "scripts:watch", "sass", "sass:watch"]);
