@@ -37,9 +37,9 @@
     },
 
     componentDidUpdate: function (prevProps, prevState) {
-        var firstBtn = ReactDOM.findDOMNode(this).lastChild.lastChild;
-        if (firstBtn != undefined) {
-            firstBtn.click();
+        var userSelector = $(ReactDOM.findDOMNode(this)).find("div[id^='userSelector']")[0];
+        if (userSelector != undefined) {
+            userSelector.click();
         }
     },
 

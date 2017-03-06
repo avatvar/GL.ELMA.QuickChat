@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
+using NuGet.Packaging;
 
 namespace GL.ELMA.QuickChat.Hubs
 {
@@ -51,25 +52,26 @@ namespace GL.ELMA.QuickChat.Hubs
         /// <param name="chatItem"></param>
         public void SendMessage(ChatMessage chatItem)
         {
+            IEnumerable<string> allReceivers;
+            UserConnection sender = GetUser(chatItem.UserId);
             UserConnection receiver;
             if (Connections.TryGetValue(chatItem.ReceiverId, out receiver))
             {
-                UserConnection sender = GetUser(chatItem.UserId);
-
-                IEnumerable<string> allReceivers;
                 lock (receiver.ConnectionIds)
                 {
                     lock (sender.ConnectionIds)
                     {
-
                         allReceivers = receiver.ConnectionIds.Concat(sender.ConnectionIds);
                     }
                 }
-
-                foreach (var cid in allReceivers)
-                {
-                    HubContext.Clients.Client(cid).pushNewMessage(chatItem.Id, chatItem.UserId, chatItem.UserName, chatItem.Message, chatItem.DateTime);
-                }
+            }
+            else
+            {
+                allReceivers = sender.ConnectionIds;
+            }
+            foreach (var cid in allReceivers)
+            {
+                HubContext.Clients.Client(cid).pushNewMessage(chatItem.Id, chatItem.UserId, chatItem.UserName, chatItem.Message, chatItem.DateTime);
             }
         }
 

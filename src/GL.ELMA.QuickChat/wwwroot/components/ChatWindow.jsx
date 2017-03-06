@@ -41,8 +41,8 @@
     },
 
     sendMessage: function () {
-        var $messageInput = $(ReactDOM.findDOMNode(this)).find('input[data-message]');
-        var message = $messageInput.val();
+        var $messageInput = document.getElementById('message-to-send');
+        var message = $messageInput.value;
         var messageObj = {
             Id: this.createGuid(),
             ReceiverId: this.state.UserId,
@@ -58,7 +58,7 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8"
         });
-        $messageInput.val('');
+        $messageInput.value = '';
     },            
 
 	componentDidUpdate: function () {
@@ -82,7 +82,6 @@
                                 source={(userId === this.state.CurrentUser) ? 'client' : 'server'} 
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
-                j++;
             }
         }
                 

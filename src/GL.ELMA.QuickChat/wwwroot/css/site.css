@@ -10,31 +10,32 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 80%;
+  width: 1100px;
   background: #444753;
   border-radius: 5px;
   padding-left: 0px !important;
   padding-right: 0px !important; }
 
 .people-list {
-  width: 280px;
+  width: 25%;
   float: left; }
   .people-list .search {
-    padding: 20px; }
+    padding: 20px;
+    padding-right: 0px; }
   .people-list input {
     border-radius: 3px;
     border: none;
     padding: 14px;
     color: white;
     background: #6A6C75;
-    width: 90%;
+    width: 92%;
     font-size: 14px; }
   .people-list .fa-search {
     position: relative;
-    left: -25px; }
+    left: -29px; }
   .people-list ul {
     padding: 20px;
-    height: 770px; }
+    list-style-type: none !important; }
     .people-list ul li {
       padding-bottom: 20px; }
   .people-list img {
@@ -48,7 +49,7 @@ body {
     color: #92959E; }
 
 .chat {
-  width: 78%;
+  width: 75%;
   float: left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
@@ -78,6 +79,9 @@ body {
     border-bottom: 2px solid white;
     overflow-y: scroll;
     height: 575px; }
+    .chat .chat-userContainer .chat-history ul {
+      list-style-type: none !important;
+      padding-left: 0px; }
     .chat .chat-userContainer .chat-history .message-data {
       margin-bottom: 15px; }
     .chat .chat-userContainer .chat-history .message-data-time {
@@ -90,8 +94,10 @@ body {
       font-size: 16px;
       border-radius: 7px;
       margin-bottom: 30px;
-      width: 90%;
-      position: relative; }
+      position: relative;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      max-width: 90%; }
       .chat .chat-userContainer .chat-history .message:after {
         bottom: 100%;
         left: 7%;
@@ -103,14 +109,14 @@ body {
         pointer-events: none;
         border-bottom-color: #86BB71;
         border-width: 10px;
-        margin-left: -10px; }
+        margin-left: -26px; }
     .chat .chat-userContainer .chat-history .my-message {
       background: #86BB71; }
     .chat .chat-userContainer .chat-history .other-message {
       background: #94C2ED; }
       .chat .chat-userContainer .chat-history .other-message:after {
         border-bottom-color: #94C2ED;
-        left: 93%; }
+        left: 100%; }
   .chat .chat-userContainer .chat-message {
     padding: 30px; }
     .chat .chat-userContainer .chat-message textarea {

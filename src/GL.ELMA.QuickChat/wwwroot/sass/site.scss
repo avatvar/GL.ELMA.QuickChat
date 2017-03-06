@@ -18,7 +18,7 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 80%;
+  width: 1100px;
   background: #444753;
   border-radius: 5px;
   padding-left: 0px !important;
@@ -26,11 +26,12 @@ body {
 }
 
 .people-list {
-  width:280px;
+  width:25%;
   float: left;
   
   .search {
     padding: 20px;
+    padding-right:0px;
   }
   
   input {
@@ -39,19 +40,18 @@ body {
     padding: 14px;
     color: white;
     background: #6A6C75;
-    width: 90%;
+    width: 92%;
     font-size: 14px;
   }
   
   .fa-search {
     position: relative;
-    left: -25px;
+    left: -29px;
   }
-  
+
   ul {
     padding: 20px;
-    height: 770px;
- 
+    list-style-type:none !important;
     li {
       padding-bottom: 20px;
     }
@@ -77,7 +77,7 @@ body {
 }
 
 .chat {
-  width: 78%;
+  width: 75%;
   float:left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
@@ -121,7 +121,10 @@ body {
     border-bottom: 2px solid white;
     overflow-y: scroll;
     height: 575px;
-    
+    ul {
+        list-style-type:none !important;
+        padding-left: 0px;
+    }
     .message-data {
       margin-bottom: 15px;
     }
@@ -138,8 +141,10 @@ body {
       font-size: 16px;
       border-radius: 7px;
       margin-bottom: 30px;
-      width: 90%;
       position: relative;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      max-width:90%;
       
       &:after {
         bottom: 100%;
@@ -152,7 +157,7 @@ body {
         pointer-events: none;
         border-bottom-color: $green;
         border-width: 10px;
-        margin-left: -10px;
+        margin-left: -26px;
       }
     }
     
@@ -162,10 +167,9 @@ body {
     
     .other-message {
       background: $blue;
-      
       &:after {
         border-bottom-color: $blue;
-        left: 93%;
+        left: 100%;
       }
     }
     
