@@ -11,9 +11,7 @@
     },
 
     render: function () {
-        return (<div> <ChatUsers chathub={this.state.ChatHub} />
-                       <div className={'chat'} id="ChatWindowContainer"></div>
-                    </div>);
+        return (<ChatUsers chathub={this.state.ChatHub} />);
     }
         
 });

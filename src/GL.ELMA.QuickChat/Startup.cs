@@ -76,8 +76,6 @@ namespace GL.ELMA.QuickChat
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IChatManager, ChatManager>();
 
-            services.AddSignalR();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc(options =>
             {

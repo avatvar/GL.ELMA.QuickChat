@@ -37,7 +37,7 @@
     },
 
     componentDidUpdate: function (prevProps, prevState) {
-        var firstBtn = ReactDOM.findDOMNode(this).lastChild;
+        var firstBtn = ReactDOM.findDOMNode(this).lastChild.lastChild;
         if (firstBtn != undefined) {
             firstBtn.click();
         }

@@ -18,13 +18,15 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 750px;
+  width: 80%;
   background: #444753;
   border-radius: 5px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .people-list {
-  width:260px;
+  width:280px;
   float: left;
   
   .search {
@@ -50,9 +52,6 @@ body {
     padding: 20px;
     height: 770px;
  
-    
-    
-    
     li {
       padding-bottom: 20px;
     }
@@ -78,44 +77,44 @@ body {
 }
 
 .chat {
-  width: 490px;
+  width: 78%;
   float:left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   
   color: #434651;
-  
-  .chat-header {
-    padding: 20px;
-    border-bottom: 2px solid white;
+  .chat-userContainer {
+      .chat-header {
+        padding: 20px;
+        border-bottom: 2px solid white;
     
-    img {
-      float: left;
-    }
+        img {
+          float: left;
+        }
     
-    .chat-about {
-      float: left;
-      padding-left: 10px;
-      margin-top: 6px;
-    }
+        .chat-about {
+          float: left;
+          padding-left: 10px;
+          margin-top: 6px;
+        }
     
-    .chat-with {
-      font-weight: bold;
-      font-size: 16px;
-    }
+        .chat-with {
+          font-weight: bold;
+          font-size: 16px;
+        }
     
-    .chat-num-messages {
-      color: $gray;
-    }
+        .chat-num-messages {
+          color: $gray;
+        }
     
-    .fa-star {
-      float: right;
-      color: #D8DADF;
-      font-size: 20px;
-      margin-top: 12px;
-    }
-  }
+        .fa-star {
+          float: right;
+          color: #D8DADF;
+          font-size: 20px;
+          margin-top: 12px;
+        }
+      }
   
   .chat-history {
     padding: 30px 30px 20px;
@@ -207,6 +206,7 @@ body {
         color: darken($blue, 7%);
       }
     }
+  }
   }
 }
 

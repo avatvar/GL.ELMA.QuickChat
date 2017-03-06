@@ -86,7 +86,7 @@
             }
         }
                 
-        return (<div id={this.props.userid}>
+        return (<div className={'chat-userContainer'} id={this.props.userid}>
                     <div className={"chat-header clearfix"}>
                         <img src={"https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"} alt={"avatar"}/>   
                         <div className={"chat-about"}>
