@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace GL.ELMA.QuickChat.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

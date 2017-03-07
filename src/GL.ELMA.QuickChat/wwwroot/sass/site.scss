@@ -126,6 +126,9 @@ body {
         padding-left: 0px;
     }
     .message-data {
+        i {
+             display:inline !important;
+        }
       margin-bottom: 15px;
     }
     
@@ -148,7 +151,6 @@ body {
       
       &:after {
         bottom: 100%;
-        left: 7%;
         border: solid transparent;
         content: " ";
         height: 0;
@@ -157,22 +159,27 @@ body {
         pointer-events: none;
         border-bottom-color: $green;
         border-width: 10px;
-        margin-left: -26px;
       }
     }
     
     .my-message {
       background: $green;
+      float:left;
+      display: inline-block;
+      &:after {
+        right:100%;
+        margin-right: -35px;
+      }
     }
-    
+
     .other-message {
       background: $blue;
       &:after {
         border-bottom-color: $blue;
         left: 100%;
+        margin-left: -35px;
       }
     }
-    
   }
   
   .chat-message {

@@ -75,13 +75,20 @@
         if (this.state.Messages.length) {
             for (; i < this.state.Messages.length; i++) {
                 userId = this.state.Messages[i].UserId;
-                items.push(<ChatItem 
+                if (userId === this.state.CurrentUser) {
+                    items.push(<ChatItemToOther 
                                 username={this.state.Messages[i].UserName}
-                                liIndex={i}
-                                datetime={this.state.Messages[i].DateTime} 
-                                source={(userId === this.state.CurrentUser) ? 'client' : 'server'} 
+                                datetime={this.state.Messages[i].DateTime}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
+                } else {
+                    items.push(<ChatItemToMe
+                                username={this.state.Messages[i].UserName}
+                                datetime={this.state.Messages[i].DateTime}  
+                                text={this.state.Messages[i].Message} key={i} 
+                            />);
+                }
+                
             }
         }
                 

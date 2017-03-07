@@ -84,6 +84,8 @@ body {
       padding-left: 0px; }
     .chat .chat-userContainer .chat-history .message-data {
       margin-bottom: 15px; }
+      .chat .chat-userContainer .chat-history .message-data i {
+        display: inline !important; }
     .chat .chat-userContainer .chat-history .message-data-time {
       color: #a8aab1;
       padding-left: 6px; }
@@ -100,7 +102,6 @@ body {
       max-width: 90%; }
       .chat .chat-userContainer .chat-history .message:after {
         bottom: 100%;
-        left: 7%;
         border: solid transparent;
         content: " ";
         height: 0;
@@ -108,15 +109,20 @@ body {
         position: absolute;
         pointer-events: none;
         border-bottom-color: #86BB71;
-        border-width: 10px;
-        margin-left: -26px; }
+        border-width: 10px; }
     .chat .chat-userContainer .chat-history .my-message {
-      background: #86BB71; }
+      background: #86BB71;
+      float: left;
+      display: inline-block; }
+      .chat .chat-userContainer .chat-history .my-message:after {
+        right: 100%;
+        margin-right: -35px; }
     .chat .chat-userContainer .chat-history .other-message {
       background: #94C2ED; }
       .chat .chat-userContainer .chat-history .other-message:after {
         border-bottom-color: #94C2ED;
-        left: 100%; }
+        left: 100%;
+        margin-left: -35px; }
   .chat .chat-userContainer .chat-message {
     padding: 30px; }
     .chat .chat-userContainer .chat-message textarea {
