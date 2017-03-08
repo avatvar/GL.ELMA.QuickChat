@@ -12,6 +12,8 @@ var notify = require("gulp-notify");
 var plumber = require("gulp-plumber");
 var filter = require('gulp-filter');
 var sourcemaps = require('gulp-sourcemaps');
+var normalize = require('node-normalize-scss');
+var gulpUtil = require('gulp-util');
 
 var onError = function (err) {
     notify.onError({
@@ -26,7 +28,7 @@ var plumberOptions = {
 };
 
 gulp.task("scripts", function () {
-    return gulp.src(["wwwroot/components/*.jsx"])
+    return gulp.src(["wwwroot/components/*.jsx", "node_modules/dateformat/lib/dateformat.js"])
 		.pipe(babel({ presets: ["react", "es2016"]
 		}))
         .pipe(concat("quickChat.js"))
@@ -75,8 +77,9 @@ gulp.task("copy-list.js", function () {
 
 gulp.task('sass', function () {
     var autoprefixerOptions = {
-        browsers: ['last 2 versions']
-    };
+        browsers: ['last 2 versions'],
+        cascade: false
+};
 
     var filterOptions = "**/*.css";
 
@@ -85,7 +88,6 @@ gulp.task('sass', function () {
 
         ]
     };
-
     return gulp.src('wwwroot/sass/**/*.scss')
         .pipe(plumber(plumberOptions))
         .pipe(sourcemaps.init())

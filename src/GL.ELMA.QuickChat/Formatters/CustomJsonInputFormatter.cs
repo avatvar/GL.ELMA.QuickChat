@@ -41,8 +41,13 @@ namespace GL.ELMA.QuickChat.Formatters
 
             using (var reader = new StreamReader(context.HttpContext.Request.Body, encoding))
             {
-                var model = JsonConvert.DeserializeObject(reader.ReadToEnd(), context.ModelType);
-                return InputFormatterResult.SuccessAsync(model);
+                var serializationData = reader.ReadToEnd();
+                if (!String.IsNullOrEmpty(serializationData))
+                {
+                    var model = JsonConvert.DeserializeObject(serializationData, context.ModelType);
+                    return InputFormatterResult.SuccessAsync(model);
+                }
+                return InputFormatterResult.SuccessAsync(Activator.CreateInstance(context.ModelType));
             }
         }
     }

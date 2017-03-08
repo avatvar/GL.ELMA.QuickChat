@@ -26,9 +26,17 @@
 
     componentWillMount: function () {
         this.state.ChatHub.client.pushNewMessage = this.pushNewMessage;
-        if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
-            $.connection.hub.qs = { "currentUserId": this.state.CurrentUser };
-            $.connection.hub.start();
+        $.connection.hub.start();
+    },
+
+    componentWillUpdate: function() {
+        
+    },
+
+    onSendMessage: function () {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            this.sendMessage();
         }
     },
 
@@ -41,25 +49,32 @@
     },
 
     sendMessage: function () {
-        var $messageInput = document.getElementById('message-to-send');
-        var message = $messageInput.value;
-        var messageObj = {
-            Id: this.createGuid(),
-            ReceiverId: this.state.UserId,
-            UserId: this.state.CurrentUser,
-            UserName: this.state.UserName,
-            Message: message,
-            DateTime: new Date()
-        };
-        $.ajax({
-            method: 'POST',
-            url: './Chat/PostChat',
-            data: JSON.stringify(messageObj),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8"
-        });
-        $messageInput.value = '';
-    },            
+        var messageInput = document.getElementById('message-to-send' + this.state.UserId);
+        var message = messageInput.value;
+        if (message !== "") {
+            var messageObj = {
+                Id: this.createGuid(),
+                ReceiverId: this.state.UserId,
+                UserId: this.state.CurrentUser,
+                UserName: this.state.UserName,
+                Message: message,
+                DateTime: new Date()
+            };
+            $.ajax({
+                method: 'POST',
+                url: './Chat/PostChat',
+                data: JSON.stringify(messageObj),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+            var elem = $('#message-to-send' + this.state.UserId);
+            elem.blur();
+            elem.val("");
+            setTimeout(function () {
+                elem.focus();
+            }, 0);
+        }
+    }, 
 
 	componentDidUpdate: function () {
 		var $messageInput = $(ReactDOM.findDOMNode(this)).find('div[data-messages]');
@@ -68,21 +83,22 @@
 		}		
 	},
 
-    render: function () {
+	render: function () {
         var items = [];
         var i = 0;
         var userId;    
         if (this.state.Messages.length) {
             for (; i < this.state.Messages.length; i++) {
                 userId = this.state.Messages[i].UserId;
-                if (userId === this.state.CurrentUser) {
-                    items.push(<ChatItemToOther 
+                var date = dateFormat(new Date(this.state.Messages[i].DateTime), 'h:MM:ss TT, mmmm dS');
+                if (userId !== this.state.CurrentUser) {
+                    items.push(<ChatItemToMe 
                                 username={this.state.Messages[i].UserName}
-                                datetime={this.state.Messages[i].DateTime}  
+                                datetime={date}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
                 } else {
-                    items.push(<ChatItemToMe
+                    items.push(<ChatItemToOther
                                 username={this.state.Messages[i].UserName}
                                 datetime={this.state.Messages[i].DateTime}  
                                 text={this.state.Messages[i].Message} key={i} 
@@ -105,7 +121,7 @@
                           <ul> {items} </ul>
                       </div>
                       <div className={"chat-message clearfix"}>
-                        <textarea name={"message-to-send"} id={"message-to-send"} placeholder={"Type your message"} rows={"3"}></textarea>
+                        <textarea onKeyPress={this.onSendMessage} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
                 
                         <i className={"fa fa-file-o"}></i> &nbsp;&nbsp;&nbsp;
                         <i className={"fa fa-file-image-o"}></i>

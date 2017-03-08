@@ -113,7 +113,8 @@ body {
     .chat .chat-userContainer .chat-history .my-message {
       background: #86BB71;
       float: left;
-      display: inline-block; }
+      display: inline-block;
+      display: -moz-inline-stack; }
       .chat .chat-userContainer .chat-history .my-message:after {
         right: 100%;
         margin-right: -35px; }

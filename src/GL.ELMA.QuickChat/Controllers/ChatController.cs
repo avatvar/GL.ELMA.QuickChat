@@ -18,14 +18,14 @@ namespace GL.ELMA.QuickChat.Controllers
     public class ChatController : Controller
     {
         private readonly IChatManager _manager;
-        private readonly MainHub _chatHub;
+        private readonly QuickChatHub _chatHub;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ChatController(IChatManager chatManager, IConnectionManager connectionManager, UserManager<ApplicationUser> userManager)
         {
             _manager = chatManager;
             _userManager = userManager;
-            _chatHub = new MainHub(connectionManager, userManager);
+            _chatHub = new QuickChatHub(connectionManager, userManager);
         }
 
         [HttpGet]

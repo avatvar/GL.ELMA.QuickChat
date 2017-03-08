@@ -10,6 +10,9 @@
 
     },
 
+    componentDidMount: function () {
+    },
+
     render: function () {
         return (<ChatUsers chathub={this.state.ChatHub} />);
     }
