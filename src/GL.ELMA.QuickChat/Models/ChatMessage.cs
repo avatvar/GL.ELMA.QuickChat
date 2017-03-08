@@ -15,7 +15,12 @@ namespace GL.ELMA.QuickChat.Models
         /// <summary>
         /// Идентификатор автора сообщения
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid AuthorId { get; set; }
+
+        /// <summary>
+        /// Наименование автора сообщения
+        /// </summary>
+        public string AuthorName { get; set; }
 
         /// <summary>
         /// Идентификатор получателя
@@ -23,9 +28,9 @@ namespace GL.ELMA.QuickChat.Models
         public Guid ReceiverId { get; set; }
 
         /// <summary>
-        /// Наименование пользователя
+        /// Наименование получателя
         /// </summary>
-        public string UserName { get; set; }
+        public string ReceiverName { get; set; }
 
         /// <summary>
         /// Текст сообщения

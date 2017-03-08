@@ -5,7 +5,8 @@
             UserId: this.props.userId,
             UserName: this.props.username,
             ChatHub: this.props.chathub,
-            CurrentUser: this.props.currentUser
+            CurrentUser: this.props.currentUser,
+            CurrentUserName: this.props.currentUserName
         };
     },
 
@@ -24,7 +25,8 @@
                                         userid={this.state.UserId}
                                         sendmessage={this.state.SendMessage}
                                         chathub={this.state.ChatHub}
-                                        currentUser={this.state.CurrentUser}/>,
+                                        currentUser={this.state.CurrentUser}
+                                        currentUserName={this.state.CurrentUserName}/>,
                 windowContainer);
         } else {
             if ($(chatWindow).css('display') === 'none') {

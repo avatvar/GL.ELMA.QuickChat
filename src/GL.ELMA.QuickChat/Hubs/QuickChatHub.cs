@@ -40,7 +40,7 @@ namespace GL.ELMA.QuickChat.Hubs
         public void SendMessage(ChatMessage chatItem)
         {
             IEnumerable<string> allReceivers;
-            UserConnection sender = GetConnection(chatItem.UserId);
+            UserConnection sender = GetConnection(chatItem.AuthorId);
             UserConnection receiver;
             if (Connections.TryGetValue(chatItem.ReceiverId, out receiver))
             {
@@ -58,7 +58,7 @@ namespace GL.ELMA.QuickChat.Hubs
             }
             foreach (var connectionId in allReceivers)
             {
-                HubContext.Clients.Client(connectionId).pushNewMessage(chatItem.Id, chatItem.UserId, chatItem.UserName, chatItem.Message, chatItem.DateTime);
+                HubContext.Clients.Client(connectionId).pushNewMessage(chatItem.Id, chatItem.AuthorId, chatItem.AuthorName, chatItem.Message, chatItem.DateTime);
             }
         }
 

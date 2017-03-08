@@ -6,16 +6,17 @@
             UserName: this.props.username,
             ChatHub: this.props.chathub,
             Messages: [],
-            CurrentUser: this.props.currentUser
+            CurrentUserId: this.props.currentUser,
+            CurrentUserName: this.props.currentUserName
         };
     },
 
-    pushNewMessage: function (id, userId, userName, message, dateTime) {
+    pushNewMessage: function (id, authorId, authorName, message, dateTime) {
         var msgs = this.state.Messages;
         msgs.push({
             Id: id,
-            UserId: userId,
-            UserName: userName,
+            AuthorId: authorId,
+            AuthorName: authorName,
             Message: message,
             DateTime: dateTime
         });
@@ -55,8 +56,9 @@
             var messageObj = {
                 Id: this.createGuid(),
                 ReceiverId: this.state.UserId,
-                UserId: this.state.CurrentUser,
-                UserName: this.state.UserName,
+                ReceiverName: this.state.UserName,
+                AuthorId: this.state.CurrentUserId,
+                AuthorName: this.state.CurrentUserName,
                 Message: message,
                 DateTime: new Date()
             };
@@ -89,18 +91,17 @@
         var userId;    
         if (this.state.Messages.length) {
             for (; i < this.state.Messages.length; i++) {
-                userId = this.state.Messages[i].UserId;
+                userId = this.state.Messages[i].AuthorId;
                 var date = dateFormat(new Date(this.state.Messages[i].DateTime), 'h:MM:ss TT, mmmm dS');
-                if (userId !== this.state.CurrentUser) {
+                if (userId !== this.state.CurrentUserId) {
                     items.push(<ChatItemToMe 
-                                username={this.state.Messages[i].UserName}
+                                username={this.state.Messages[i].AuthorName}
                                 datetime={date}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
                 } else {
                     items.push(<ChatItemToOther
-                                username={this.state.Messages[i].UserName}
-                                datetime={this.state.Messages[i].DateTime}  
+                                datetime={date}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
                 }

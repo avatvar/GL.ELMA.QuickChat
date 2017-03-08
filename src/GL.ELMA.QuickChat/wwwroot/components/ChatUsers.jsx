@@ -9,35 +9,43 @@
         };
     },
 
-    initializeUser: function () {
-        var component = this;
-        $.getJSON('./Chat/GetCurrentUser/').then(function (data) {
-            component.setState({
-                CurrentUserName: data.UserName,
-                CurrentUserId: data.Id
-            });
-        });
-    },
-
     pushUserList: function () {
 
     },
 
     componentWillMount: function () {
-        this.initializeUser();
         this.state.ChatHub.client.pushUserList = this.pushUserList;
         var component = this;
-        $.getJSON('./Chat/GetUsers/').then(function (data) {
-            var users = JSON.parse(data);
-            component.setState({
-                Users: users
-            });
-           
+        $.ajax({
+            type: 'GET',
+            url: './Chat/GetUsers/',
+            dataType: 'json',
+            success: function (data) {
+                var users = JSON.parse(data);
+                $.ajax({
+                    type: 'GET',
+                    url: './Chat/GetCurrentUser/',
+                    dataType: 'json',
+                    success: function (currentUserData) {
+                        var currentUserName = currentUserData.UserName;
+                        var currentUserId = currentUserData.Id;
+                        component.setState({
+                            Users: users,
+                            CurrentUserName: currentUserName,
+                            CurrentUserId: currentUserId
+                        });
+                    },
+                    data: {},
+                    async: true
+                });
+            },
+            data: {},
+            async: true
         });
     },
 
     componentDidUpdate: function (prevProps, prevState) {
-        var userSelector = $(ReactDOM.findDOMNode(this)).find("div[id^='userSelector']")[0];
+        var userSelector = $(ReactDOM.findDOMNode(this)).find("div[id^=userSelector]")[0];
         if (userSelector != undefined) {
             userSelector.click();
         }
@@ -53,7 +61,7 @@
 
 		for (; i < this.state.Users.length; i++) {
 		    var user = this.state.Users[i];
-		    userLi.push(<ChatUser key={i} username={user.UserName} userId={user.UserId} currentUser={this.state.CurrentUserId} chathub={this.state.ChatHub}/>);
+		    userLi.push(<ChatUser key={i} username={user.UserName} userId={user.UserId} currentUser={this.state.CurrentUserId} currentUserName={this.state.CurrentUserName} chathub={this.state.ChatHub}/>);
 		}
         
 		return ( <div className={'people-list'} id={'people-list'}>
