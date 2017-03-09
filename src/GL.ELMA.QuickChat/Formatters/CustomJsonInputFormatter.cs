@@ -44,7 +44,7 @@ namespace GL.ELMA.QuickChat.Formatters
                 var serializationData = reader.ReadToEnd();
                 if (!String.IsNullOrEmpty(serializationData))
                 {
-                    var model = JsonConvert.DeserializeObject(serializationData, context.ModelType);
+                    var model = JsonConvert.DeserializeObject(serializationData, context.ModelType, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     return InputFormatterResult.SuccessAsync(model);
                 }
                 return InputFormatterResult.SuccessAsync(Activator.CreateInstance(context.ModelType));

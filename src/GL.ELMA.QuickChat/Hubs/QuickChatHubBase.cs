@@ -44,7 +44,7 @@ namespace GL.ELMA.QuickChat.Hubs
         {
             Guid connectedUserId;
             var claims = Context.User.Identity as ClaimsIdentity;
-            var identClaim = claims?.FindFirst(NameClaimType);
+            var identClaim = claims?.FindFirst(ClaimTypes.NameIdentifier);
             if (identClaim != null)
             {
                 Guid.TryParse(identClaim.Value, out connectedUserId);
@@ -67,7 +67,6 @@ namespace GL.ELMA.QuickChat.Hubs
         }
 
         private readonly IConnectionManager _connectionManager;
-        private const string NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
         protected static readonly ConcurrentDictionary<Guid, UserConnection> Connections = new ConcurrentDictionary<Guid, UserConnection>();
     }
 }

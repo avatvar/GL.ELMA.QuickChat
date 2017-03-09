@@ -12,8 +12,8 @@
     },
 
     pushNewMessage: function (id, authorId, authorName, message, dateTime) {
-        var msgs = this.state.Messages;
-        msgs.push({
+        var messages = this.state.Messages;
+        messages.push({
             Id: id,
             AuthorId: authorId,
             AuthorName: authorName,
@@ -21,7 +21,7 @@
             DateTime: dateTime
         });
         this.setState({
-            Messages: msgs
+            Messages: messages
         });
     },
 
@@ -31,12 +31,12 @@
     },
 
     componentWillUpdate: function() {
-        
+        $.connection.hub.start();
     },
 
-    onSendMessage: function () {
-        var key = window.event.keyCode;
-        if (key === 13) {
+    onPressEnter: function (e) {
+        var code = e.keyCode || e.which;
+        if (code === 13) {
             this.sendMessage();
         }
     },
@@ -105,7 +105,6 @@
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
                 }
-                
             }
         }
                 
@@ -118,11 +117,11 @@
                         </div>
                         <i className={"fa fa-star"}></i>
                       </div>
-                      <div className={"chat-history"}>
+                      <div ref={'chatHistory'} className={"chat-history"}>
                           <ul> {items} </ul>
                       </div>
                       <div className={"chat-message clearfix"}>
-                        <textarea onKeyPress={this.onSendMessage} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
+                        <textarea onKeyPress={this.onPressEnter} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
                 
                         <i className={"fa fa-file-o"}></i> &nbsp;&nbsp;&nbsp;
                         <i className={"fa fa-file-image-o"}></i>

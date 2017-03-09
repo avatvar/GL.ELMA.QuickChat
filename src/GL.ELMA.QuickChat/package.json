@@ -25,6 +25,7 @@
     "node-normalize-scss": "1.4.0",
     "gulp-uglify": "2.0.1",
     "jquery": "3.1.1",
+    "axios": "0.15.3", 
     "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "jshint": "2.9.4",
