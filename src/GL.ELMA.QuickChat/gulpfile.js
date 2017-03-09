@@ -28,14 +28,39 @@ var plumberOptions = {
 };
 
 gulp.task("scripts", function () {
-    return gulp.src(["wwwroot/components/*.jsx", "node_modules/dateformat/lib/dateformat.js"])
-		.pipe(babel({ presets: ["react", "es2016"]
+    return gulp.src(["wwwroot/react/**/*.jsx", "node_modules/dateformat/lib/dateformat.js"])
+		.pipe(babel({
+		    presets: ["react", "es2015-without-strict"]
 		}))
         .pipe(concat("quickChat.js"))
         //.pipe(jshint())
         .pipe(rename("quickChat.min.js"))
         //.pipe(uglify())
         .pipe(gulp.dest("wwwroot/js"));
+});
+
+gulp.task("copy-redux-logger", function () {
+    return gulp.src("node_modules/redux-logger/dist/index.min.js")
+      .pipe(newer("wwwroot/lib/index.min.js"))
+      .pipe(gulp.dest("wwwroot/lib"));
+});
+
+gulp.task("copy-react-redux", function () {
+    return gulp.src("node_modules/react-redux/dist/react-redux.min.js")
+      .pipe(newer("wwwroot/lib/react.min.js"))
+      .pipe(gulp.dest("wwwroot/lib"));
+});
+
+gulp.task("copy-redux", function () {
+    return gulp.src("node_modules/redux/dist/redux.min.js")
+      .pipe(newer("wwwroot/lib/react.min.js"))
+      .pipe(gulp.dest("wwwroot/lib"));
+});
+
+gulp.task("copy-redux-thunk", function () {
+    return gulp.src("node_modules/redux-thunk/dist/redux-thunk.min.js")
+      .pipe(newer("wwwroot/lib/react.min.js"))
+      .pipe(gulp.dest("wwwroot/lib"));
 });
 
 gulp.task("copy-react", function () {
@@ -103,6 +128,6 @@ gulp.task('watch', function () {
     gulp.watch('wwwroot/sass/*.scss', ['sass']);
 });
 
-gulp.task("copy", ["copy-react", "copy-react-dom", "copy-signalr", "copy-jquery", "copy-bootstrap", "copy-handlebars", "copy-list.js"]);
+gulp.task("copy", ["copy-react", "copy-react-dom", "copy-signalr", "copy-jquery", "copy-bootstrap", "copy-handlebars", "copy-list.js", "copy-redux-thunk", "copy-react-redux", "copy-redux", "copy-redux-logger"]);
 gulp.task("build", ["copy", "scripts", "sass"]);
 gulp.task("default", ["copy", "scripts", "sass", "watch"]);
