@@ -14,6 +14,10 @@ var filter = require('gulp-filter');
 var sourcemaps = require('gulp-sourcemaps');
 var normalize = require('node-normalize-scss');
 var gulpUtil = require('gulp-util');
+var browserify = require('browserify');
+var babelify = require('babelify');
+var source = require('vinyl-source-stream');
+var glob = require('glob');
 
 var onError = function (err) {
     notify.onError({
@@ -26,6 +30,28 @@ var onError = function (err) {
 var plumberOptions = {
     errorHandler: onError
 };
+
+gulp.task('buildScripts', () => {
+    var sources = glob.sync("wwwroot/react/**/*.jsx");
+        sources.push("node_modules/dateformat/lib/dateformat.js");
+    return browserify({
+        entries: sources,
+        extensions: ['.jsx', '.js'],
+        debug: true
+    })
+        .transform('babelify', {
+            presets: ['es2015', 'react', 'stage-0'],
+            plugins: ['transform-class-properties']
+        })
+        .bundle()
+        .on('error', function (err) {
+            gulpUtil.log(gulpUtil.colors.red.bold('[browserify error]'));
+            gulpUtil.log(err.message);
+            this.emit('end');
+        })
+        .pipe(source("quickChat.min.js"))
+        .pipe(gulp.dest("wwwroot/js"));
+});
 
 gulp.task("scripts", function () {
     return gulp.src(["wwwroot/react/**/*.jsx", "node_modules/dateformat/lib/dateformat.js"])

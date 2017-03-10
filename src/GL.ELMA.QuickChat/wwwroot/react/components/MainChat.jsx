@@ -1,25 +1,20 @@
-﻿import React, { Component } from 'react'
+﻿import { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ChatUsers from 'ChatUsers'
+import ChatUsers from './chatUsers'
 import * as UserActions from '../actions/UserActions'
 
 class MainChat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ChatHub: $.connection.MainHub,
-            Users
+            ChatHub: $.connection.MainHub
         };
     }
 
     componentDidMount(){
         const { getUsers } = this.props.UserActions;
         getUsers();
-        this.setState({ 
-            kind: data.kind, 
-            data: data.data.children
-        });
     }
 
     render() {
