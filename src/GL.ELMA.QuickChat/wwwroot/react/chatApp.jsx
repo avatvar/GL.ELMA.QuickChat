@@ -1,12 +1,12 @@
 ﻿import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import MainChat from './components/MainChat'
-import initChatStore from './store/chatStore'
+import initMainStore from './store/mainStore'
 
-const store = initChatStore();
+const store = initMainStore();
 
 render(
   <Provider store={store}>
-      <MainChat />
+      <MainChat/>
   </Provider>, 
 document.getElementById('mainChatContainer'))

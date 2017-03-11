@@ -1,4 +1,4 @@
-﻿const defaultState = { loading: false, users: null, errors: null };
+﻿const defaultState = { loading: false, users: [], errors: null };
 
 export default function users(state = defaultState, action) {
     switch (action.type) {

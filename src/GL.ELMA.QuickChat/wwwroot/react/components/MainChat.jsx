@@ -1,8 +1,9 @@
 ﻿import { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ChatUsers from './chatUsers'
-import * as UserActions from '../actions/UserActions'
+import ChatUsers from './ChatUsers'
+import * as UserActions from '../actions/users'
+import * as CurrentUserActions from '../actions/currentUser'
 
 class MainChat extends Component {
     constructor(props) {
@@ -13,28 +14,32 @@ class MainChat extends Component {
     }
 
     componentDidMount(){
-        const { getUsers } = this.props.UserActions;
+        const { getUsers } = this.props.usersActions;
+        const { getCurrentUser } = this.props.currentUserActions;
         getUsers();
+        getCurrentUser();
     }
 
     render() {
-        const { loading, users, errors } = this.props;
-
-        if (loading) { return (<div>Loading</div>) }
-        if (errors != null) { return (<div>Error!</div>) }
-        return (<ChatUsers users={users} chathub={this.state.ChatHub} />);
+        if (this.props.loading || this.props.currentUser == null || this.props.users == null) { return (<div>Loading</div>) }
+        if (this.props.errors != null) { return (<div>Error!</div>) }
+        return (<ChatUsers users={this.props.users} chathub={this.state.ChatHub} currentUser={this.props.currentUser}/>);
     }
 }
 
 function mapStateToProps(state) {
     return {
-        users: state.users
+        users: state.users.users,
+        currentUser: state.currentUser.currentUser,
+        loading: state.currentUser.loading && state.users.loading,
+        errors: state.currentUser.loading.errors
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        userActions: bindActionCreators(UserActions, dispatch)
+        usersActions: bindActionCreators(UserActions, dispatch),
+        currentUserActions: bindActionCreators(CurrentUserActions, dispatch)
     }
 }
 

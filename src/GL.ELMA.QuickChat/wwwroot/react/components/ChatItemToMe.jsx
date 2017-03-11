@@ -1,6 +1,8 @@
-﻿var ChatItemToMe = React.createClass({
-    
-    render: function () {
+﻿import { Component } from 'react'
+
+class ChatItemToMe extends Component {
+
+    render() {
         var messageDate = this.props.datetime;
         var messageAuthor = this.props.username;
 
@@ -10,9 +12,9 @@
                         <span className={'message-data-time' }>{messageDate}</span> 
                     </div>
                     <div className={'message my-message'}>
-                        {this.props.text}
+                    {this.props.text}
                     </div>
                 </li>);
     }
-
-});
+}
+export default ChatItemToMe

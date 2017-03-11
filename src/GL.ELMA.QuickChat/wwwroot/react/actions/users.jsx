@@ -4,12 +4,11 @@ export const getUsers = () => dispatch => {
         dispatch({
             type: 'GETUSERS_LOADING'
         });
-        Axios.get('./Chat/GetUsers/')
+        Axios.get('./Chat/GetUsers/', {dataType: 'json'})
             .then(function(response) {
-                var users = response.data;
                 dispatch({
                     type: 'GETUSERS_LOADED',
-                    payload: users
+                    payload: JSON.parse(response.data)
                 });
             })
             .catch(function(error) {
@@ -19,3 +18,4 @@ export const getUsers = () => dispatch => {
                 });
             });
 }
+

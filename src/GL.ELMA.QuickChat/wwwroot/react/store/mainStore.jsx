@@ -4,7 +4,7 @@ import createLogger from 'redux-logger';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-export default function initChatStore() {
+export default function initMainStore() {
     const logger = createLogger();
     const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger)));
 

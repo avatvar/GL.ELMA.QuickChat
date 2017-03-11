@@ -1,7 +1,12 @@
-﻿var ChatWindow = React.createClass({
-    
-    getInitialState: function () {
-        return {
+﻿import { Component } from 'react'
+import dateformat from 'dateformat'
+import ChatItemToMe from './ChatItemToMe'
+import ChatItemToOther from './ChatItemToOther'
+
+class ChatWindow extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             UserId: this.props.userid,
             UserName: this.props.username,
             ChatHub: this.props.chathub,
@@ -9,9 +14,9 @@
             CurrentUserId: this.props.currentUser,
             CurrentUserName: this.props.currentUserName
         };
-    },
+    }
 
-    pushNewMessage: function (id, authorId, authorName, message, dateTime) {
+    pushNewMessage(id, authorId, authorName, message, dateTime) {
         var messages = this.state.Messages;
         messages.push({
             Id: id,
@@ -23,33 +28,33 @@
         this.setState({
             Messages: messages
         });
-    },
+    }
 
-    componentWillMount: function () {
-        this.state.ChatHub.client.pushNewMessage = this.pushNewMessage;
+    componentWillMount() {
+        this.state.ChatHub.client.pushNewMessage = ::this.pushNewMessage;
         $.connection.hub.start();
-    },
+    }
 
-    componentWillUpdate: function() {
+    componentWillUpdate() {
         $.connection.hub.start();
-    },
+    }
 
-    onPressEnter: function (e) {
+    onPressEnter(e) {
         var code = e.keyCode || e.which;
         if (code === 13) {
             this.sendMessage();
         }
-    },
+    }
 
-    createGuid: function ()  
+    createGuid()  
     {  
        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {  
            var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);  
            return v.toString(16);  
        });  
-    },
+    }
 
-    sendMessage: function () {
+    sendMessage (){
         var messageInput = document.getElementById('message-to-send' + this.state.UserId);
         var message = messageInput.value;
         if (message !== "") {
@@ -76,31 +81,31 @@
                 elem.focus();
             }, 0);
         }
-    }, 
+    } 
 
-	componentDidUpdate: function () {
-		var $messageInput = $(ReactDOM.findDOMNode(this)).find('div[data-messages]');
+	componentDidUpdate (){
+		/*var $messageInput = $(ReactDOM.findDOMNode(this)).find('div[data-messages]');
 		if($messageInput.length) {			
 			$messageInput[0].scrollTop = $messageInput[0].scrollHeight;
-		}		
-	},
+		}*/		
+	}
 
-	render: function () {
-        var items = [];
+	render (){
+        var chatItems = [];
         var i = 0;
         var userId;    
         if (this.state.Messages.length) {
             for (; i < this.state.Messages.length; i++) {
                 userId = this.state.Messages[i].AuthorId;
-                var date = dateFormat(new Date(this.state.Messages[i].DateTime), 'h:MM:ss TT, mmmm dS');
+                var date = dateformat(new Date(this.state.Messages[i].DateTime), 'h:MM:ss TT, mmmm dS');
                 if (userId !== this.state.CurrentUserId) {
-                    items.push(<ChatItemToMe 
+                    chatItems.push(<ChatItemToMe 
                                 username={this.state.Messages[i].AuthorName}
                                 datetime={date}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
                 } else {
-                    items.push(<ChatItemToOther
+                    chatItems.push(<ChatItemToOther
                                 datetime={date}  
                                 text={this.state.Messages[i].Message} key={i} 
                             />);
@@ -117,20 +122,20 @@
                         </div>
                         <i className={"fa fa-star"}></i>
                       </div>
-                      <div ref={'chatHistory'} className={"chat-history"}>
-                          <ul> {items} </ul>
+                      <div className={"chat-history"}>
+                          <ul> {chatItems} </ul>
                       </div>
                       <div className={"chat-message clearfix"}>
-                        <textarea onKeyPress={this.onPressEnter} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
+                        <textarea onKeyPress={::this.onPressEnter} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
                 
                         <i className={"fa fa-file-o"}></i> &nbsp;&nbsp;&nbsp;
                         <i className={"fa fa-file-image-o"}></i>
         
-                        <button onClick={this.sendMessage}>Send</button>
+                        <button onClick={::this.sendMessage}>Send</button>
 
                       </div>
                   </div>
             );
     }
-
-});
+}
+export default ChatWindow
