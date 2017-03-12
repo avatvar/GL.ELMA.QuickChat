@@ -21,9 +21,12 @@ class MainChat extends Component {
     }
 
     render() {
-        if (this.props.loading || this.props.currentUser == null || this.props.users == null) { return (<div>Loading</div>) }
+        if (this.props.loading || this.props.currentUser == null || this.props.users == null) { return (<div className={"loader"}></div>) }
         if (this.props.errors != null) { return (<div>Error!</div>) }
-        return (<ChatUsers users={this.props.users} chathub={this.state.ChatHub} currentUser={this.props.currentUser}/>);
+        return (<div>
+                    <ChatUsers users={this.props.users} chathub={this.state.ChatHub} currentUser={this.props.currentUser}/>
+                    <div id={"chatWindowDiv"} className={'chat'}></div>
+            </div>);
     }
 }
 

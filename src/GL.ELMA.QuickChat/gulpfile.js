@@ -155,5 +155,5 @@ gulp.task('watch', function () {
 });
 
 gulp.task("copy", ["copy-react", "copy-react-dom", "copy-signalr", "copy-jquery", "copy-bootstrap", "copy-handlebars", "copy-list.js", "copy-redux-thunk", "copy-react-redux", "copy-redux", "copy-redux-logger"]);
-gulp.task("build", ["copy", "scripts", "sass"]);
+gulp.task("build", ["copy", , "sass", "buildScripts"]);
 gulp.task("default", ["copy", "scripts", "sass", "watch"]);

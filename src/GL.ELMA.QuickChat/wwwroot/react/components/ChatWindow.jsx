@@ -42,6 +42,7 @@ class ChatWindow extends Component {
     onPressEnter(e) {
         var code = e.keyCode || e.which;
         if (code === 13) {
+            e.preventDefault();
             this.sendMessage();
         }
     }
@@ -54,8 +55,8 @@ class ChatWindow extends Component {
        });  
     }
 
-    sendMessage (){
-        var messageInput = document.getElementById('message-to-send' + this.state.UserId);
+    sendMessage () {
+        var messageInput = this.messageInput;
         var message = messageInput.value;
         if (message !== "") {
             var messageObj = {
@@ -74,20 +75,14 @@ class ChatWindow extends Component {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8"
             });
-            var elem = $('#message-to-send' + this.state.UserId);
-            elem.blur();
-            elem.val("");
-            setTimeout(function () {
-                elem.focus();
-            }, 0);
+            messageInput.value = '';
+            messageInput.focus();
         }
     } 
 
-	componentDidUpdate (){
-		/*var $messageInput = $(ReactDOM.findDOMNode(this)).find('div[data-messages]');
-		if($messageInput.length) {			
-			$messageInput[0].scrollTop = $messageInput[0].scrollHeight;
-		}*/		
+	componentDidUpdate () {
+	    var chatHistory = this.chatHistory;
+	    chatHistory.scrollTop = chatHistory.scrollHeight;	
 	}
 
 	render (){
@@ -122,11 +117,11 @@ class ChatWindow extends Component {
                         </div>
                         <i className={"fa fa-star"}></i>
                       </div>
-                      <div className={"chat-history"}>
+                      <div ref={(div) => { this.chatHistory = div}} className={"chat-history"}>
                           <ul> {chatItems} </ul>
                       </div>
                       <div className={"chat-message clearfix"}>
-                        <textarea onKeyPress={::this.onPressEnter} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
+                        <textarea ref={(input) => { this.messageInput = input }} onKeyPress={::this.onPressEnter} name={"message-to-send"} id={"message-to-send" + this.state.UserId} placeholder={"Type your message"} rows={"3"}></textarea>
                 
                         <i className={"fa fa-file-o"}></i> &nbsp;&nbsp;&nbsp;
                         <i className={"fa fa-file-image-o"}></i>

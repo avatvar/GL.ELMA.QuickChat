@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - GL.ELMA.QuickChat</title>
-    
+    <link rel="stylesheet" href="~/css/reset.css">
+    <link rel="stylesheet" href="~/css/site.css">
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap.min.css" />
@@ -32,12 +33,12 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
+    <div class="navbar-collapse collapse">
+        @await Html.PartialAsync("_LoginPartial")
+    </div>
     <div id="mainChatContainer" class="container clearfix">
-         <div class="navbar-collapse collapse">
-                @await Html.PartialAsync("_LoginPartial")
-         </div>
         @RenderBody()
     </div>
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts", required: false)
 </body>
 </html>
